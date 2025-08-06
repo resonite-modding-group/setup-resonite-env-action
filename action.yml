@@ -1,5 +1,8 @@
 name: Setup Resonite Build Environment
 description: Setup a build environment for Resonite plugins and mods
+branding:
+  icon: download
+  color: green
 
 inputs:
   resonite-path:
