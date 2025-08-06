@@ -49,7 +49,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ inputs.resonite-path }}
-        key: ${{ runner.os }}-resonite-${{ env.BUILD_ID }}-${{ inputs.branch }}
+        key: Resonite-${{ env.BUILD_ID }}-${{ inputs.branch }} # Resonite-18898712-public
 
     - name: Download Steamcmd
       if: steps.cache-resonite.outputs.cache-hit != 'true' # only download if resonite is not cached
