@@ -34,11 +34,13 @@ runs:
   steps:
     - name: Get buildid [prerelease]
       if: ${{ inputs.branch == 'prerelease' }}
+      shell: bash
       run: |
         echo "BUILD_ID=$(curl -s https://api.steamcmd.net/v1/info/2519830 | jq -r '.data["2519830"].depots.branches.prerelease.buildid')" >> $GITHUB_ENV
         
     - name: Get buildid [public]
       if: ${{ inputs.branch == 'public' || inputs.branch == 'headless' }}
+      shell: bash
       run: |
         echo "BUILD_ID=$(curl -s https://api.steamcmd.net/v1/info/2519830 | jq -r '.data["2519830"].depots.branches.public.buildid')" >> $GITHUB_ENV
  
@@ -63,12 +65,14 @@ runs:
     #TODO Handle branches including ones with passwords
     - name: Download Resonite
       if: steps.cache-resonite.outputs.cache-hit != 'true'
+      shell: bash
       run: |
         steamcmd '+@sSteamCmdForcePlatformType windows' '+force_install_dir "${{ inputs.resonite-path }}"' '+login "${{ inputs.steam-user }}" "${{ inputs.steam-password }}"' '+app_license_request 2519830' '+app_update 2519830 validate' '+quit'
         rm -r '${{ inputs.resonite-path }}/RuntimeData/PreCache'
 
     - name: Setup Resonite folders
       id: setup-resonite-folders
+      shell: bash
       run: |
         mkdir -p "${{ inputs.resonite-path }}/Libraries"
         echo "libraries-path=${{ inputs.resonite-path }}/Libraries" >> $GITHUB_OUTPUT
