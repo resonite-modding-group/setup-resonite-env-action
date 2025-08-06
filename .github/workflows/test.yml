@@ -1,0 +1,23 @@
+name: Test Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v4
+
+      - name: Setup build environment
+        id: build-env
+        uses: ./.
+        with:
+          branch: 'public'
+          steam-user: ${{ secrets.STEAMUSER }}
+          steam-password: ${{ secrets.STEAMPASS }}
+
+      - name: Echo resonite environment outputs
+        run: |
+          echo "Resonite Libraries Path: ${{ steps.build-env.outputs.libraries-path }}"
