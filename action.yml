@@ -1,0 +1,76 @@
+name: Setup Resonite Build Environment
+description: Install Resonite and setup dotnet
+
+inputs:
+  resonite-path:
+    description: 'Path to the directory where Resonite will be installed'
+    required: false
+    default: ${{ github.workspace }}/Resonite
+  steam-user:
+    description: 'Steam username for SteamCMD. (Provide this via a secret: secrets.STEAMUSER)'
+    required: true
+  steam-password:
+    description: 'Steam password for SteamCMD. (Provide this via a secret: secrets.STEAMPASS)'
+    required: true
+  branch:
+    type: choice
+    description: 'Branch of Resonite to use. defaults to "public"'
+    required: false
+    default: 'public'
+    options:
+      - public
+      - prerelease
+      - headless
+outputs:
+  libraries-path:
+    description: 'Path to the Resonite Libraries directory'
+    value: ${{ steps.setup-resonite-folders.outputs.libraries-path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get buildid [prerelease]
+      if: ${{ inputs.branch == 'prerelease' }}
+      run: |
+        echo "BUILD_ID=$(curl -s https://api.steamcmd.net/v1/info/2519830 | jq -r '.data["2519830"].depots.branches.prerelease.buildid')" >> $GITHUB_ENV
+        
+    - name: Get buildid [public]
+      if: ${{ inputs.branch == 'public' || inputs.branch == 'headless' }}
+      run: |
+        echo "BUILD_ID=$(curl -s https://api.steamcmd.net/v1/info/2519830 | jq -r '.data["2519830"].depots.branches.public.buildid')" >> $GITHUB_ENV
+ 
+    - name: Fetch cached Resonite
+      id: cache-resonite
+      uses: actions/cache@v4
+      with:
+        path: ${{ inputs.resonite-path }}
+        key: ${{ runner.os }}-resonite-${{ env.BUILD_ID }}-${{ inputs.branch }}
+
+    - name: Fetch cached steamcmd
+      id: cache-steamcmd
+      uses: actions/cache@v4
+      with:
+        path: ~/.steam
+        key: ${{ runner.os }}-steamcmd-120
+
+    - name: Download Steamcmd
+      if: steps.cache-resonite.outputs.cache-hit != 'true' && steps.cache-steamcmd.outputs.cache-hit != 'true' # only download if both resonite and steamcmd are not cached, if either is cached, downloading is not needed
+      uses: CyberAndrii/setup-steamcmd@29e114af032a947f5ed57832409070d6e4cbfce3 # 1.2.0
+
+    #TODO Handle branches including ones with passwords
+    - name: Download Resonite
+      if: steps.cache-resonite.outputs.cache-hit != 'true'
+      run: |
+        steamcmd '+@sSteamCmdForcePlatformType windows' '+force_install_dir "${{ inputs.resonite-path }}"' '+login "${{ inputs.steam-user }}" "${{ inputs.steam-password }}"' '+app_license_request 2519830' '+app_update 2519830 validate' '+quit'
+        rm -r '${{ inputs.resonite-path }}/RuntimeData/PreCache'
+
+    - name: Setup Resonite folders
+      id: setup-resonite-folders
+      run: |
+        mkdir -p "${{ inputs.resonite-path }}/Libraries"
+        echo "libraries-path=${{ inputs.resonite-path }}/Libraries" >> $GITHUB_OUTPUT
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
