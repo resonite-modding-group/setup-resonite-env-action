@@ -1,5 +1,5 @@
 name: Setup Resonite Build Environment
-description: Install Resonite and setup dotnet
+description: Setup a build environment for Resonite plugins and mods
 
 inputs:
   resonite-path:
