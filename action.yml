@@ -30,7 +30,7 @@ outputs:
     value: ${{ inputs.resonite-path }}
   libraries-path:
     description: 'Path to the Resonite Libraries directory'
-    value: ${{ steps.setup-resonite-folders.outputs.libraries-path }}
+    value: ${{ inputs.resonite-path }}/Libraries
 
 runs:
   using: "composite"
@@ -71,7 +71,6 @@ runs:
       shell: bash
       run: |
         mkdir -p "${{ inputs.resonite-path }}/Libraries"
-        echo "libraries-path=${{ inputs.resonite-path }}/Libraries" >> $GITHUB_OUTPUT
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
