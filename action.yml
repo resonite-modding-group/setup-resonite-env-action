@@ -25,6 +25,9 @@ inputs:
       - prerelease
       - headless
 outputs:
+  resonite-path:
+    description: 'Path to the Resonite install directory'
+    value: ${{ inputs.resonite-path }}
   libraries-path:
     description: 'Path to the Resonite Libraries directory'
     value: ${{ steps.setup-resonite-folders.outputs.libraries-path }}
