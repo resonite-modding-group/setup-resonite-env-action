@@ -23,6 +23,7 @@ Github action to setup Resonite for building plugins and mods
 
 ## Outputs
 
-| Name             | Description                             |
-| ---------------- | --------------------------------------- |
-| `libraries-path` | Path to the Resonite `Libraries` folder |
+| Name             | Description                                |
+| ---------------- | ------------------------------------------ |
+| `resonite-path`  | Path to the `Resonite` install directory   |
+| `libraries-path` | Path to the `Resonite\Libraries` directory |
