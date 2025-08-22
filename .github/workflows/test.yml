@@ -20,4 +20,5 @@ jobs:
 
       - name: Echo resonite environment outputs
         run: |
+          echo "Resonite Path: ${{ steps.build-env.outputs.resonite-path }}"
           echo "Resonite Libraries Path: ${{ steps.build-env.outputs.libraries-path }}"
