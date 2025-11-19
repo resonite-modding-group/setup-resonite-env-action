@@ -24,6 +24,9 @@ inputs:
       - public
       - prerelease
       - headless
+  branch-password:
+    description: 'Branch password if using a protected branch. (Provide this via a secret: secrets.BRANCHPASS)'
+    required: false
 outputs:
   resonite-path:
     description: 'Path to the Resonite install directory'
@@ -58,12 +61,12 @@ runs:
       if: steps.cache-resonite.outputs.cache-hit != 'true' # only download if resonite is not cached
       uses: CyberAndrii/setup-steamcmd@29e114af032a947f5ed57832409070d6e4cbfce3 # 1.2.0
 
-    #TODO Handle branches including ones with passwords
+    #Always 'set' beta and beta password, '-beta public' will use the default branch and steamcmd ignores -betapassword when not needed for the target branch
     - name: Download Resonite
       if: steps.cache-resonite.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        steamcmd '+@sSteamCmdForcePlatformType windows' '+force_install_dir "${{ inputs.resonite-path }}"' '+login "${{ inputs.steam-user }}" "${{ inputs.steam-password }}"' '+app_license_request 2519830' '+app_update 2519830 validate' '+quit'
+        steamcmd '+@sSteamCmdForcePlatformType windows' '+force_install_dir "${{ inputs.resonite-path }}"' '+login "${{ inputs.steam-user }}" "${{ inputs.steam-password }}"' '+app_license_request 2519830' '+app_update 2519830 -beta "${{inputs.branch}}" -betapassword "${{inputs.branch-password}}" validate' '+quit'
         rm -r '${{ inputs.resonite-path }}/RuntimeData/PreCache'
 
     - name: Setup Resonite folders
