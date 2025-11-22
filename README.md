@@ -14,12 +14,13 @@ Github action to setup Resonite for building plugins and mods
 
 ## Inputs
 
-| Name             | Description                                                                  | Required | Default     |
-| ---------------- | ---------------------------------------------------------------------------- | -------- | ----------- |
-| `resonite-path`  | Path to where Resonite will be installed                                     | no       | `/Resonite` |
-| `steam-user`     | Steam username for SteamCMD (Provide this via a secret: `secrets.STEAMUSER`) | yes      | —           |
-| `steam-password` | Steam password for SteamCMD (Provide this via a secret: `secrets.STEAMPASS`) | yes      | —           |
-| `branch`         | Branch of Resonite to use (`public`, `prerelease`, `headless`)               | no       | `public`    |
+| Name              | Description                                                                              | Required | Default     |
+| ----------------- | ---------------------------------------------------------------------------------------- | -------- | ----------- |
+| `resonite-path`   | Path to where Resonite will be installed                                                 | no       | `/Resonite` |
+| `steam-user`      | Steam username for SteamCMD (Provide via a secret: `secrets.STEAMUSER`)                  | yes      | —           |
+| `steam-password`  | Steam password for SteamCMD (Provide via a secret: `secrets.STEAMPASS`)                  | yes      | —           |
+| `branch`          | Branch of Resonite to use (`public`, `prerelease`, `headless`)                           | no       | `public`    |
+| `branch-password` | Branch password if using a protected branch (Provide via a secret: `secrets.BRANCHPASS`) | no       |             |
 
 ## Outputs
 
