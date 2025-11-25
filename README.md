@@ -1,15 +1,32 @@
 # Setup Resonite Environment Action
-Github action to setup Resonite for building plugins and mods
+Github action to setup Resonite for building plugins and mods.
 
+- Downloads and caches Resonite using steamcmd.
+- Creates `/Libraries` where plugins can be placed or built to.
+- Sets up .Net 10.
 
 ## Usage
+
+### Basic usage
 ```yml
 - name: Setup build environment
   id: build-env
-  uses: resonite-modding-group/setup-resonite-env-action@v0.1.0
+  uses: resonite-modding-group/setup-resonite-env-action@v0.2.0
   with:
     steam-user: ${{ secrets.STEAMUSER }}
     steam-password: ${{ secrets.STEAMPASS }}
+```
+
+### Setup headless environment
+```yml
+- name: Setup build environment for headless branch
+  id: build-env
+  uses: resonite-modding-group/setup-resonite-env-action@v0.2.0
+  with:
+    steam-user: ${{ secrets.STEAMUSER }}
+    steam-password: ${{ secrets.STEAMPASS }}
+    branch: 'headless'
+    branch-password: ${{ secrets.BRANCHPASS }}
 ```
 
 ## Inputs
