@@ -1,0 +1,26 @@
+name: Bug Report
+description: Report a feature that is not working as expected.
+labels: [Bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of the issue.
+    validations:
+      required: true
+  - type: input
+    id: action-version
+    attributes:
+      label: Action Version
+      description: what version of the action was used
+      placeholder: 0.2.0
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What was the expected outcome.
+    validations:
+      required: false
