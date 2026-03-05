@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     labels:
-      - "Dependencies"
-      - "Github-actions"
+      - "dependencies"
+      - "github-actions"
     schedule:
       interval: "weekly"
