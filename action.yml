@@ -59,7 +59,7 @@ runs:
 
     - name: Download Steamcmd
       if: steps.cache-resonite.outputs.cache-hit != 'true' # only download if resonite is not cached
-      uses: CyberAndrii/setup-steamcmd@29e114af032a947f5ed57832409070d6e4cbfce3 # 1.2.0
+      uses: CyberAndrii/setup-steamcmd@afc45f145b95c175c3a3862d3ca84756537d48e8 # 1.3.0
 
     #Always 'set' beta and beta password, '-beta public' will use the default branch and steamcmd ignores -betapassword when not needed for the target branch
     - name: Download Resonite
